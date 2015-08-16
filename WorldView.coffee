@@ -65,12 +65,12 @@ class WorldView.World
   ###
   renderCameraMove : =>
     # scale pins and flags inversely proportional to zoom
-    zoomScale = .01 * @camera.position.distanceTo(VECTOR_ZERO)
+    zoomScale = .006 * @camera.position.distanceTo(VECTOR_ZERO)
 
     for pin in @pins
       pin.scale.set(zoomScale, zoomScale, zoomScale)
+
     for flag in @flags
-      flag.setRotationFromQuaternion(@camera.quaternion)
       # manually hide flags when they go behind earth when
       # the angle at Vector Zero for the triangle flag,0,camera > 90 degrees
       a = WorldView.getDistance(@camera.position, flag.position)
@@ -82,6 +82,7 @@ class WorldView.World
       if Angle < 1.2
         flag.visible = true
         flag.scale.set(zoomScale, zoomScale, zoomScale)
+        flag.setRotationFromQuaternion(@camera.quaternion)
       else
         flag.visible = false
 
@@ -124,7 +125,7 @@ class WorldView.World
     dW = domNode.width()
     dH = domNode.height()
     @renderer.setSize(dW, dH)
-    cameraFar = WorldView.EARTH_RADIUS * 30 # distance from camera to render
+    cameraFar = WorldView.EARTH_RADIUS * 6 # distance from camera to render
     @camera = new THREE.PerspectiveCamera(45, dW/dH, 1, cameraFar)
     @camera.position.z = WorldView.EARTH_RADIUS * 4
     @controls = new THREE.OrbitControls(@camera, domNode[0])
@@ -183,7 +184,6 @@ class WorldView.World
   addFlag : (options) ->
     flag = new WorldView.Flag(options)
     @addToSurface(flag, options.lat, options.long, @zScene)
-    WorldView.lookAwayFrom(flag, @earthParent)
     @flags.push(flag)
     flag
 
