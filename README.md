@@ -1,192 +1,60 @@
+##### WorldView
 
+Meteor package which renders a 3D globe with latitude longitude data points.
 
-<!-- Start WorldView.coffee -->
+Uses Three.js
 
-##### WorldView.World
+Checkout the examples here : [worldview.meteor.com](http://worldview.meteor.com/)
 
-3D model of the earth with lat/long data representations
-world = WorldView.World(options)
+![worldview screenshot](https://cloud.githubusercontent.com/assets/1656829/9375901/f40351ec-46ba-11e5-9262-5f5d19ed0902.png "WorldView Screenshot")
 
-###### Params:
+##### Installation
 
-* **Object** *options* object
-- `renderTo` : String dom node selector to append the world to
-- `earthImagePath` : String path to the earth image texture (optional)
-- `backgroundColor`: Number hex value for the background color
-- `series` : Array Array of series data objects
+$ meteor add looshi:worldview
 
-##### renderCameraMove()
+##### Usage
 
-Renders the scene.  Applies proportional scaling to surface objects.
+Instantiate the world with a monolithic options object.  The options object is similar to Highcharts options -- it contains all the configuration for the world and objects, plus the series data points to plot.
 
-##### renderScene()
+```javascript
+new WorldView.World(options);
+```
 
-Renders the scene.  Does not apply proportional scaling of surface objects.
+##### WorldView Options Object
 
-Automatically called in all of the 'add' methods, addPin, addFlag, etc.
-You only need to call this function if you are manually manipulating
-the scene outside the API calls available.
+|option  | type | description |
+| ------- | ---- | ------------ |
+| renderTo  | String| dom node selector to append the world to, '#myDiv' |
+| earthImagePath  | String | path to the earth image texture (optional), defaults to the image shown above. |
+| backgroundColor  | String | background color |
+| series  | Array |  Array of Series Options Objects, see below |
 
-Example
+##### Series Options Object
+| option  | type | description |
+| ------- | ---- | ------------ |
+| name  | String| name of series  ( optional ) , currently does nothing, eventually may be part of a legend.|
+| type  | String | 3D object.  Available objects are : WorldView.CUBE, WorldView.CYLINDER, WorldView.PIN, WorldView.FLAG, WorldView.CONE |
+| color  | String or Array | color ( optional).  If an array is used the color for each object will gradiate depending on its amount.  e.g. ['#ff0000','#'0000ff'] Will color objects between red and blue.  ( optional )|
+| scale  | Number | Multiplier applied to each data point's amount.  ( optional )|
+| grow | String |  WorldView.HEIGHT - object height increases, WorldView.WIDTH - object width increases, WorldView.BOTH - object width and height increase.   ( optional )|
+| girth  | Number | If grow = WorldView.HEIGHT, girth defines each object's girth.  ( optional )|
+| height | Number | If grow = WorldView.WIDTH, height defined each object's height.  ( optional )|
+| opacity | Number | Number from zero to 1.  Currently only Flags and pins support opacity.  ( optional )|
+| data  | Array |  Array of Series Data Arrays, see below |
 
-myCube = new THREE.Mesh( myGeometry, myMaterial );
-myWorld.add( myCube );        // scene will be automatically rendered
-myCube.position.set(3, 3, 3); // make some changes later
-world.renderScene();          // now you'll need to call render
+##### Series Data Array
 
-##### addPin(options)
+Array which represents a single data point.  Order matters.
 
-Adds a 3D pin object at the given location.
-
-###### Params:
-
-* **WorldView.ItemOptions** *options*
-
-###### Return:
-
-* returns the 3D pin object.
-
-##### getPin(latitude, longitude)
-
-###### Params:
-
-* **Number** *latitude*
-* **Number** *longitude*
-
-###### Return:
-
-* returns the 3D pin object or null if no pin exists at this location.
-
-##### addFlag(options)
-
-Adds a flag object with text at the given location.
-
-###### Params:
-
-* **WorldView.ItemOptions** *options*
-
-###### Return:
-
-* returns the 3D flag object.
-
-##### addCube(options)
-
-Adds a cube object at the given location.
-
-###### Params:
-
-* **WorldView.ItemOptions** *options*
-
-###### Return:
-
-* returns the 3D cube object.
-
-##### addCylinder(options)
-
-Adds a cylinder object at the given location.
-
-###### Params:
-
-* **WorldView.ItemOptions** *options*
-
-###### Return:
-
-* returns the 3D cube object.
-
-##### addToSurface(object, latitude, longitude)
-
-Adds any 3D object to the surface of the earth.
-
-###### Params:
-
-* **THREE.Object3D** *object* THREE.Object3D object.
-* **Number** *latitude*
-* **Number** *longitude*
-
-###### Return:
-
-* returns the 3D object.
-
-##### add(object)
-
-Adds any 3D object to the scene.
-
-###### Params:
-
-* **THREE.Object3D** *object* THREE.Object3D object.
-
-###### Return:
-
-* returns nothing.
-
-##### remove(object)
-
-Removes 3D object from the scene.
-
-###### Params:
-
-* **THREE.Object3D** *object* THREE.Object3D object.
-
-###### Return:
-
-* returns nothing.
-
-##### addSeriesObjects(options.series)
-
-Adds data items to the surface.
-
-series objects are in the format :
-
-- `name` : String name of series
-- `type` : String 3D object which represents each data item
-- `color`: Number Color of 3D object
-- `data`: Array of series.data Arrays
-
-series.data Arrays are in the format (order matters ) :
-
-- [latitude,
-- longitude,
-- amount(optional),
-- color(optional),
-- label (optional),
-
-###### Params:
-
-* **Object** *options.series* object
-
-###### Return:
-
-* returns nothing.
-
-##### add(fromLat, fromLong, toLat, toLong, color)
-
-Draws an arc between two coordinates on the earth.
-
-###### Params:
-
-* **Number** *fromLat*
-* **Number** *fromLong*
-* **Number** *toLat*
-* **Number** *toLong*
-* **Number** *color* The color of the arc.
-
-###### Return:
-
-* returns nothing.
-
-##### animateObjectOnArc(arc, object, duration)
-
-Animates an object along an arc.
-
-###### Params:
-
-* **WorldView.Arc** *arc* The Arc object to animate along.
-* **THREE.Object3D** *object* Object to move along arc.
-* **Number** *duration* Duration for the animation.
-
-###### Return:
-
-* returns nothing.
-
-<!-- End WorldView.coffee -->
+```javascript
+[latitude,longitude,amount,color,label]
+```
+##### Series Data Array
+| index | name | type | description |
+| ----- | ---- | ---- | ------------ |
+| 0  | latitude | Number | The latitude. |
+| 1  | longitude | Number | The longitude. |
+| 2  | amount | Number | The value for this data point. |
+| 3  | color | Number | This will override the color specified in Series Options.  ( optional ) |
+| 4  | label | Number | Text that appears, currently only used in WorldView.FLAG objects. |
 

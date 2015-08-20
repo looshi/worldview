@@ -65,7 +65,7 @@ class WorldView.World
   ###
   renderCameraMove : =>
     # scale pins and flags inversely proportional to zoom
-    zoomScale = .006 * @camera.position.distanceTo(VECTOR_ZERO)
+    zoomScale = .01 * @camera.position.distanceTo(VECTOR_ZERO)
 
     for pin in @pins
       pin.scale.set(zoomScale, zoomScale, zoomScale)
