@@ -34,7 +34,7 @@ new WorldView.World(options);
 | ------- | ---- | ------------ |
 | name  | String| name of series  ( optional ) , currently does nothing, eventually may be part of a legend.|
 | type  | String | 3D object.  Available objects are : WorldView.CUBE, WorldView.CYLINDER, WorldView.PIN, WorldView.FLAG, WorldView.CONE |
-| color  | String or Array | color ( optional).  If an array is used the color for each object will gradiate depending on its amount.  e.g. ['#ff0000','#'0000ff'] Will color objects between red and blue.  ( optional )|
+| color  | String or Array | color ( optional).  If an array is used the color for each object will be a gradient value between the provided colors based on the data amount.  e.g. ['#ff0000','#'0000ff'] Will color objects lower amount closer to red and higher amount closer to blue.  ( optional )|
 | scale  | Number | Multiplier applied to each data point's amount.  ( optional )|
 | grow | String |  WorldView.HEIGHT - object height increases, WorldView.WIDTH - object width increases, WorldView.BOTH - object width and height increase.   ( optional )|
 | girth  | Number | If grow = WorldView.HEIGHT, girth defines each object's girth.  ( optional )|

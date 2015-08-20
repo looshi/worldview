@@ -1,11 +1,11 @@
 Package.describe({
   summary : 'Displays a 3D model of the earth with latitude longitude points and arcs between them.',
-  version : '0.1.0'
+  version : '0.1.1'
 })
 
 Package.onUse(function(api){
-  api.use('templating','client');
-  api.use('coffeescript','client');
+  api.use('templating@1.1.1','client');
+  api.use('coffeescript@1.0.6','client');
   api.use('davidcittadini:three@0.71.12')
 
   api.add_files('assets/droid_sans_regular.typeface.js','client');
