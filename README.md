@@ -4,7 +4,7 @@ Meteor package which renders a 3D globe with latitude longitude data points.
 
 Uses Three.js
 
-Checkout the examples here : [worldview.meteor.com](http://worldview.meteor.com/)
+[Click here to view the demo.](http://52.11.194.90/)
 
 ![worldview screenshot](https://cloud.githubusercontent.com/assets/1656829/9375901/f40351ec-46ba-11e5-9262-5f5d19ed0902.png "WorldView Screenshot")
 
